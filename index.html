@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tourism Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f4f7fa;
+      color: #333;
+    }
+    header {
+      background: #0066cc;
+      padding: 15px 40px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { margin: 0; font-size: 24px; }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .hero h2 { font-size: 40px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+      padding: 40px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #0066cc;
+    }
+    .gallery {
+      padding: 40px;
+      background: #fff;
+    }
+    .gallery h2 { margin-bottom: 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+      gap: 15px;
+    }
+    .grid img {
+      width: 100%;
+      border-radius: 10px;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .grid img:hover {
+      transform: scale(1.05);
+    }
+    .chart-section {
+      padding: 40px;
+    }
+    canvas { background: white; border-radius: 12px; padding: 20px; }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #0066cc;
+      color: white;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tourism Dashboard</h1>
+    <nav>
+      <a href="#stats">Stats</a>
+      <a href="#gallery">Destinations</a>
+      <a href="#chart">Visitors</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Explore the World with Us 🌍</h2>
+  </section>
+
+  <section id="stats" class="stats">
+    <div class="card">
+      <h3 id="tourists">0</h3>
+      <p>Total Tourists</p>
+    </div>
+    <div class="card">
+      <h3 id="countries">0</h3>
+      <p>Countries Covered</p>
+    </div>
+    <div class="card">
+      <h3 id="destinations">0</h3>
+      <p>Top Destinations</p>
+    </div>
+  </section>
+
+  <section id="gallery" class="gallery">
+    <h2>Popular Destinations</h2>
+    <div class="grid">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80" alt="Paris">
+      <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80" alt="New York">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" alt="Tokyo">
+      <img src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=800&q=80" alt="Sydney">
+    </div>
+  </section>
+
+  <section id="chart" class="chart-section">
+    <h2>Visitors Statistics</h2>
+    <canvas id="visitorsChart" width="400" height="200"></canvas>
+  </section>
+
+  <footer>
+    <p>© 2025 Tourism Dashboard. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Animate stats counters
+    function animateValue(id, start, end, duration) {
+      let obj = document.getElementById(id);
+      let range = end - start;
+      let stepTime = Math.abs(Math.floor(duration / range));
+      let current = start;
+      let increment = end > start ? 1 : -1;
+      let timer = setInterval(function() {
+        current += increment;
+        obj.textContent = current.toLocaleString();
+        if (current == end) clearInterval(timer);
+      }, stepTime);
+    }
+    animateValue("tourists", 0, 1500000, 2000);
+    animateValue("countries", 0, 85, 2000);
+    animateValue("destinations", 0, 120, 2000);
+
+    // Chart.js Visitors Data
+    const ctx = document.getElementById('visitorsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+        datasets: [{
+          label: 'Visitors',
+          data: [12000, 15000, 14000, 18000, 22000, 20000, 25000, 30000],
+          borderColor: "#0066cc",
+          backgroundColor: "rgba(0,102,204,0.2)",
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: "top" }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
